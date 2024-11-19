@@ -1,0 +1,3 @@
+* The idea for KaOS2 is to be a highly extensible, hot swappable modular kernel that loads modules from a live FAT filesystem instead of a specialized filesystem. This would allow a developer (me) to make changes to the operating system as it's running, which opens up some very cool pathways when it comes to experimenting and educating with/about operating systems. It would also decrease the time development increments take. That is of course assuming this is ever self hosting. It probably won't be.
+
+* The base kernel should be very barebones. It will likely contain a shell handle, but no user interface attached to to this handle. A module may provide a UI for doing any of the things you like computers to do.
