@@ -2,6 +2,7 @@ ENTRY(_start)
 INPUT
 (
     tmp/boot.o
+	tmp/c_boot.o
 )
 OUTPUT(bin/kaOS2.bin)
 

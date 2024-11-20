@@ -5,6 +5,7 @@ build:
 	#
 	# ==== Boot File ====
 	nasm -felf32 src/boot.s -o tmp/boot.o
+	$$HOME/opt/cross/bin/i686-elf-gcc -c src/boot.c -o tmp/c_boot.o -ffreestanding -O2 -Wall -Wextra -fno-exceptions -fno-rtti
 	
 	@echo
 	#
@@ -27,5 +28,5 @@ run: build
 	qemu-system-i386 -cdrom bin/kaOS2.iso -monitor stdio
 
 exp: build
-	-rm /media/sf_shared/kaOS2.iso
-	cp bin/kaOS2.iso /media/sf_shared/kaOS2.iso
+	-rm /media/sf_shared/kaOS.iso
+	cp bin/kaOS2.iso /media/sf_shared/kaOS.iso
