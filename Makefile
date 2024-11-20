@@ -5,7 +5,7 @@ build:
 	#
 	# ==== Boot File ====
 	nasm -felf32 src/boot.s -o tmp/boot.o
-	$$HOME/opt/cross/bin/i686-elf-gcc -c src/boot.c -o tmp/c_boot.o -ffreestanding -O2 -Wall -Wextra -fno-exceptions -fno-rtti
+	$$HOME/opt/cross/bin/i686-elf-gcc -c src/boot_idt_setup.c -o tmp/boot_idt_setup.o -ffreestanding -O2 -Wall -Wextra -fno-exceptions -fno-rtti
 	
 	@echo
 	#
