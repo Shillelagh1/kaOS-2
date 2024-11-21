@@ -3,6 +3,7 @@ INPUT
 (
     tmp/boot.o
 	tmp/boot_idt_setup.o
+	tmp/c_dbg_serial.o
 )
 OUTPUT(bin/kaOS2.bin)
 

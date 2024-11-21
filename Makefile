@@ -5,7 +5,12 @@ build:
 	#
 	# ==== Boot File ====
 	nasm -felf32 src/boot.s -o tmp/boot.o
-	$$HOME/opt/cross/bin/i686-elf-gcc -c src/boot_idt_setup.c -o tmp/boot_idt_setup.o -ffreestanding -O2 -Wall -Wextra -fno-exceptions -fno-rtti
+	$$HOME/opt/cross/bin/i686-elf-gcc -c src/boot_idt_setup.c -o tmp/boot_idt_setup.o -ffreestanding -O2 -Wall -Wextra -fno-exceptions
+
+	@echo
+	#
+	# ==== Dbg_Serial ====
+	$$HOME/opt/cross/bin/i686-elf-gcc -c src/dbg_serial/dbg_serial.c -o tmp/c_dbg_serial.o -ffreestanding -O2 -Wall -Wextra -fno-exceptions
 	
 	@echo
 	#

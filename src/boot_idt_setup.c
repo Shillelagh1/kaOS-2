@@ -1,6 +1,6 @@
 #include <stdint.h>
 
-#define IDT_MAX_VECTORS 256
+#define IDT_MAX_VECTORS 32
 
 typedef struct {
 	uint16_t isr_0;

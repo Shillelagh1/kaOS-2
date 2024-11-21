@@ -7,6 +7,7 @@ max_isr: equ 32
 ; Macros for exception/interrupt handling
 %macro isr_err_stub 1
 isr_stub_%+%1:
+    xchg bx, bx
 	pushad			; Preserve general purpose registers
 	mov eax, [esp+32]	; Get the error code off the stack
 	
@@ -22,6 +23,7 @@ isr_stub_%+%1:
 %endmacro
 %macro isr_no_err_stub 1
 isr_stub_%+%1:
+    xchg bx, bx
 	pushad			; Preserve general purpose registers
 
 	push %1
@@ -30,6 +32,11 @@ isr_stub_%+%1:
 
     popad
     iret
+%endmacro
+%macro b_out 2
+    mov al, %2
+    mov dx, %1
+    out dx, al
 %endmacro
 
 ; Multiboot header
@@ -63,6 +70,7 @@ section .rodata
             dd isr_stub_%+i
             %assign i i+1 
         %endrep
+    dbg_ser_entry_msg: db "===== KaOS2 Serial Log =====", 0
 
 section .bss
     ; Create a temporary stack
@@ -91,8 +99,6 @@ section .text
         extern C_SETUP_IDT
         call C_SETUP_IDT
 
-        hlt
-
         ; ========== Setup the PICs for our new interrupts.
         mov al, 0x11
         out 0x20, al
@@ -116,6 +122,25 @@ section .text
         out 0x21, al
         out 0xA1, al
 
+        ; ========== Setup debug serial port.
+        ; Serial base addr 0x03f8.
+        b_out 0x3f8 + 1, 0x00
+        b_out 0x3f8 + 3, 0x80
+        b_out 0x3f8 + 0, 0x03
+        b_out 0x3f8 + 1, 0x00
+        b_out 0x3f8 + 3, 0x03
+        b_out 0x3f8 + 2, 0xc7
+        b_out 0x3f8 + 4, 0x0b
+        b_out 0x3f8 + 4, 0x1e
+        b_out 0x03f8 + 4, 0x0f
+
+        push dbg_ser_entry_msg
+        extern dbg_serial_println
+        call dbg_serial_println
+        pop eax
+
+        ; Now that we can log interrupts, re-enable them.
+        sti
     .e:
         hlt
         jmp .e
